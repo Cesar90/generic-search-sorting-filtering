@@ -9,7 +9,10 @@ function App() {
 
   return (
     <>
-      <SearchInput setSearchQuery={setQuery} />
+      <SearchInput setSearchQuery={(query) => {
+        console.log("test testing")
+        setQuery(query)
+      }} />
       <h2>Widgest:</h2>
       {widgets.filter((widget) => genericSearch(widget, ["title", "description"], query, false)).map(widget => {
         return (

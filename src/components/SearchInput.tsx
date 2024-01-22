@@ -1,8 +1,17 @@
+import { useEffect, useState } from "react";
+import useDebounce from "../hooks/useDebounce";
+
 type TSearchInputProps = {
     setSearchQuery: (search: string) => void
 }
 
 export default function SearchInput({ setSearchQuery }: TSearchInputProps) {
+    const [query, setQuery] = useState<string>("");
+    const debounceQuery = useDebounce(query, 250);
+
+    useEffect(() => {
+        setSearchQuery(debounceQuery);
+    }, [debounceQuery, setSearchQuery])
 
     return (
         <>
@@ -16,7 +25,7 @@ export default function SearchInput({ setSearchQuery }: TSearchInputProps) {
                 type="search"
                 placeholder="Search..."
                 aria-label="Search"
-                onChange={(event) => setSearchQuery(event.target.value)}
+                onChange={(event) => setQuery(event.target.value)}
             />
         </>
     )
