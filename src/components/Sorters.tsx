@@ -1,9 +1,13 @@
 // type Props<T> = {
 //     object: T
+
+import React from "react";
+import IProperty from "../interfaces/IProperty";
+
 // }
 interface ISortersProps<T> {
     object: T;
-    setProperty: (property: Extract<keyof T, string | Date | number>) => void
+    setProperty: (propertyType: IProperty<T>) => void
 }
 
 export default function Sorters<T>({ object, setProperty }: ISortersProps<T>) {
@@ -19,15 +23,27 @@ export default function Sorters<T>({ object, setProperty }: ISortersProps<T>) {
             <select
                 id="sorters"
                 className="custom-select"
-                onChange={(event) => setProperty(event.target.value as any)}
+                onChange={(event) => {
+                    const values = event.target.value.split("-");
+                    if (values.length === 2) {
+                        setProperty({
+                            property: values[0] as any,
+                            isDescending: values[1] === "true"
+                        })
+                    }
+                }}
             >
-                {Object.keys(objectI).map(key => {
+                {Object.keys(objectI).map((key) => {
                     return (
-                        <option
-                            key={key} value={key}
-                        >
-                            Sort by {key}!
-                        </option>)
+                        <React.Fragment key={key}>
+                            <option key={`${key}-true`} value={`${key}-true`}>
+                                Sort by '{key}' descending!
+                            </option>
+                            <option key={`${key}-false`} value={`${key}-false`}>
+                                Sort by '{key}' ascending!
+                            </option>
+                        </React.Fragment>
+                    );
                 })}
 
             </select>
