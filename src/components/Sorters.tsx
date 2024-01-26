@@ -1,36 +1,22 @@
-// type Props<T> = {
-//     object: T
-
-import React, { ReactNode, useState } from "react";
+import * as React from "react";
 import ISorter from "../interfaces/ISorter";
-import genericSort from "../utils/genericSort";
 
-type PropsWithChildrenFunction<P, T> = P & {
-    children?(item: T): ReactNode
-}
-// }
-interface ISortersProps<T> {
+export interface ISortersProps<T> {
     dataSource: Array<T>;
-    initialSortProperty: keyof T;
-    // setProperty: (propertyType: ISorter<T>) => void
+    setSortProperty(sortProperty: ISorter<T>): void;
 }
 
-export default function Sorters<T>(props: PropsWithChildrenFunction<ISortersProps<T>, T>) {
-    const { dataSource, initialSortProperty, children } = props;
-
-    const [sortProperty, setSortProperty] = useState<ISorter<T>>({ property: initialSortProperty, isDescending: true });
-
+export function Sorters<T>(
+    props: ISortersProps<T>
+) {
+    const { dataSource, setSortProperty } = props;
     const object = dataSource.length > 0 ? dataSource[0] : {};
     const objectI = typeof object === 'object' && object !== null ? object : {};
 
-
     return (
         <>
-            <label
-                htmlFor="sorters"
-                className="mt-3"
-            >
-                Sorters! Try us tool!
+            <label htmlFor="sorters" className="mt-3">
+                Sorters! Try us too!
             </label>
             <select
                 id="sorters"
@@ -40,8 +26,8 @@ export default function Sorters<T>(props: PropsWithChildrenFunction<ISortersProp
                     if (values.length === 2) {
                         setSortProperty({
                             property: values[0] as any,
-                            isDescending: values[1] === "true"
-                        })
+                            isDescending: values[1] === "true",
+                        });
                     }
                 }}
             >
@@ -58,9 +44,8 @@ export default function Sorters<T>(props: PropsWithChildrenFunction<ISortersProp
                     );
                 })}
             </select>
-            {
-                children && dataSource.sort((a, b) => genericSort(a, b, sortProperty)).map(widget => children(widget))
-            }
         </>
-    )
+    );
 }
+
+export default Sorters;
