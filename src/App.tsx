@@ -1,15 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import widgets from "./mock-data/widgets";
 import people from "./mock-data/people";
 import WidgetRenderer from "./components/renderers/WidgetRenderer";
 import PeopleRenderer from "./components/renderers/PeopleRenderer";
 import { SearchSortAndFilter } from "./components/SearchSortAndFilter";
+import Text from "./components/polymorphic/Text";
 
 function App() {
   const [showPeople, setShowPeople] = useState<boolean>(false);
   const buttonText = showPeople ? "Show widgets" : "Show people";
   return (
     <>
+      <Text as="h1">
+        Hello CodeSanbox
+      </Text>
+      <Text as="h2">
+        Start editiong to see some magic happen!
+      </Text>
       <button
         className="btn btn-primary"
         onClick={() => setShowPeople(!showPeople)}
